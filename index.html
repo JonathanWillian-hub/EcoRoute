@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRoute</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="shortcut icon" href="/assets/Logo_EcoRoute.ico" type="image/x-icon">
+</head>
+<body>
+
+    <header id="navbar">
+            <nav class="container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none;">
+                <h1 style="color: var(--primary); font-size: 1.5rem; cursor: pointer;">EcoRoute</h1>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Página Inicial</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="#locais">Pontos de Coleta</a></li>
+                <li><a href="#mapa-section">Mapa</a></li>
+                <li><a href="tipos.html">Tipos de Lixo</a></li>
+                <li><a href="TrocaVerde.html" style="color: var(--primary);">Troca Verde</a></li>
+            </ul>
+
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="#empresas" class="btn-primary">Seja Parceiro</a>
+        </nav>
+    </header>
+
+    <section class="hero container" id="sobre">
+        <div class="hero-text">
+            <div class="hero-badge">
+            <i class="fas fa-map-marker-alt"></i>
+            Taubaté · 13 Pontos Ativos
+            </div>
+            <h1>Descarte em <span style="color: var(--primary);">Taubaté</span> no lugar certo</h1>
+            <p>Encontre os Pontos de Entrega Voluntária (PEVs) e locais de reciclagem especializados na nossa cidade.</p>
+            <div class="hero-btns">
+                <a href="#mapa-section" class="btn-primary" style="text-decoration: none;">Ver Mapa Interativo</a>
+                <a href="reciclagem.html" class="btn-outline" style="text-decoration: none;">Guia de Reciclagem</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="map-visual-wrapper">
+                <img src="assets/Mapa.png" alt="EcoRoute Visual" style="width: 100%; border-radius: 20px;">
+            </div>
+        </div>
+    </section>
+
+    <section class="collection-locations" id="locais">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="sub-title">MAPEAMENTO LOCAL</span>
+            <h2>Pontos de Coleta (PEVs)</h2>
+            <p>Clique no cartão para ver detalhes, horários e localizar no mapa.</p>
+        </div>
+
+        <div class="locations-filter reveal">
+            <i class="fas fa-search filter-icon"></i>
+            <input type="text" id="filtro" placeholder="Busque por bairro ou tipo de resíduo (ex: Pilhas, Móveis, Vidro)…">
+        </div>
+
+        <div class="grid-4" id="locationsGrid">
+
+            <!-- 1. PEV Imaculada -->
+            <div class="location-card reveal" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <span class="card-name">PEV Imaculada</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag gray">Colchões</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Av. Nossa Senhora Imaculada Conceição, 2033</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.047449, -45.545293])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. PEV Centro -->
+            <div class="location-card reveal reveal-delay-1" onclick="toggleCard(this)">
+                <div class="card-header elt">
+                    <div class="card-icon"><i class="fas fa-plug"></i></div>
+                    <span class="card-name">PEV Centro</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag blue">Eletrônicos</span>
+                            <span class="tag blue">Eletrodomésticos</span>
+                            <span class="tag orange">Pilhas/Baterias</span>
+                            <span class="tag blue">Lâmpadas</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Praça Dr. Euzébio da Câmara Leal, 142</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.028803, -45.554524])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. PEV Cecap -->
+            <div class="location-card reveal" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-recycle"></i></div>
+                    <span class="card-name">PEV Cecap</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag gray">Colchões</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Rua Paulo Wagner de Barros, 201</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.038419, -45.618807])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. PEV Piratininga -->
+            <div class="location-card reveal reveal-delay-1" onclick="toggleCard(this)">
+                <div class="card-header org">
+                    <div class="card-icon"><i class="fas fa-leaf"></i></div>
+                    <span class="card-name">PEV Piratininga</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Rua Antônio da Silva Lobo, 992</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.010131, -45.593815])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. PEV Itaim -->
+            <div class="location-card reveal" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-recycle"></i></div>
+                    <span class="card-name">PEV Itaim</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag gray">Colchões</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Av. Joaquim Ferreira da Silva, 241</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.020458547523464, -45.52598485533881])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. PEV Três Marias II -->
+            <div class="location-card reveal reveal-delay-1" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <span class="card-name">PEV Três Marias II</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Av. Vereador Rodson Lima</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.03207039845902, -45.538086982449144])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. PEV Jaraguá -->
+            <div class="location-card reveal" onclick="toggleCard(this)">
+                <div class="card-header elt">
+                    <div class="card-icon"><i class="fas fa-plug"></i></div>
+                    <span class="card-name">PEV Jaraguá</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag blue">Eletrônicos</span>
+                            <span class="tag blue">Eletrodomésticos</span>
+                            <span class="tag orange">Pilhas/Baterias</span>
+                            <span class="tag blue">Lâmpadas</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Av. Manoel Antônio de Carvalho, 1540</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.004223977807303, -45.54469594595168])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. PEV Parque São Luiz -->
+            <div class="location-card reveal reveal-delay-1" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-recycle"></i></div>
+                    <span class="card-name">PEV Parque São Luiz</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag gray">Colchões</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Av. Ivan da Silva Cunha, 605</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-22.99814044866994, -45.55997380844301])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. PEV Mourisco -->
+            <div class="location-card reveal" onclick="toggleCard(this)">
+                <div class="card-header org">
+                    <div class="card-icon"><i class="fas fa-leaf"></i></div>
+                    <span class="card-name">PEV Mourisco</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag gray">Madeira</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Av. José Benedito Penna Guimarães, 201</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.00390795705881, -45.56615361796405])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. PEV Santa Helena -->
+            <div class="location-card reveal reveal-delay-1" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <span class="card-name">PEV Santa Helena</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag gray">Colchões</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Rua Jaime Domingues da Silva, 457</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-22.99561222100303, -45.57540896134348])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. PEV Santa Catarina -->
+            <div class="location-card reveal" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-recycle"></i></div>
+                    <span class="card-name">PEV Santa Catarina</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Av. São Francisco das Chagas, 209</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.011018314245327, -45.581459999181824])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. PEV Mantiqueira -->
+            <div class="location-card reveal reveal-delay-1" onclick="toggleCard(this)">
+                <div class="card-header org">
+                    <div class="card-icon"><i class="fas fa-leaf"></i></div>
+                    <span class="card-name">PEV Mantiqueira</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Av. Portal da Mantiqueira, S/N</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-23.0280814754557, -45.59476375587876])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. PEV Parque Urupês -->
+            <div class="location-card reveal" onclick="toggleCard(this)">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <span class="card-name">PEV Parque Urupês</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="material-tags">
+                            <span class="tag">Papel</span>
+                            <span class="tag">Plástico</span>
+                            <span class="tag">Vidro</span>
+                            <span class="tag">Metal</span>
+                            <span class="tag gray">Móveis</span>
+                            <span class="tag gray">Entulho</span>
+                            <span class="tag gray">Colchões</span>
+                            <span class="tag orange">Poda/Galhos</span>
+                        </div>
+                        <p class="card-meta"><i class="fas fa-clock"></i> Seg–Sex: 07:00 – 17:00 · Sáb: 08:00 – 12:00</p>
+                        <p class="card-meta"><i class="fas fa-map-marker-alt"></i> Rua Fernandópolis, 50</p>
+                        <button class="btn-map" onclick="event.stopPropagation(); irParaMapa([-22.99999720871826, -45.53393125386039])">
+                            <i class="fas fa-location-arrow"></i> Localizar no Mapa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /grid-4 -->
+    </div><!-- /container -->
+</section>
+
+        <!-- Mapa  -->
+    <section id="mapa-section" class="map-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="sub-title">LOCALIZAÇÃO</span>
+                <h2>Mapa Interativo</h2>
+            </div>
+            <div class="map-wrapper reveal">
+                <div id="map"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Cadastro de Empresas -->
+<section id="empresas" class="empresas-section">
+    <div class="container">
+        <div class="section-header reveal" style="text-align:center;">
+            <span class="sub-title">PARCERIAS</span>
+            <h2>Cadastre seu Ponto de Coleta</h2>
+            <p>Sua empresa realiza descarte ecológico? Apareça em nosso mapeamento.</p>
+        </div>
+
+        <div class="form-wrapper reveal">
+            <form id="form-empresa">
+                <div class="form-grid-2">
+                    <div class="input-group">
+                        <label for="nome-empresa">Nome da Empresa</label>
+                        <input type="text" id="nome-empresa" name="nome" placeholder="Ex: Recicla Taubaté" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="tel-empresa">Telefone para Contato</label>
+                        <input type="tel" id="tel-empresa" name="telefone"
+                               placeholder="(12) 99999-9999"
+                               pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}"
+                               title="Formato: (12) 99999-9999" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="email-empresa">E-mail Corporativo</label>
+                    <input type="email" id="email-empresa" name="email" placeholder="contato@empresa.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="obs-empresa">Observações</label>
+                    <textarea id="obs-empresa" name="observacoes" rows="4"
+                        placeholder="Descreva os materiais que coleta e os horários de funcionamento…"></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width:100%; justify-content:center; font-size:0.95rem; padding:14px;">
+                    <i class="fas fa-paper-plane"></i> Enviar Cadastro
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo"><em>EcoRoute</em></span>
+                <span class="footer-copy">© 2026 EcoRoute Taubaté · Todos os direitos reservados</span>
+                <nav class="footer-links">
+                    <a href="sobre.html">Sobre Nós</a>
+                    <a href="tipos.html">Tipos de Lixo</a>
+                    <a href="TrocaVerde.html">Troca Verde</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+    <script>
+        (function() {
+            const btn = document.getElementById('hamburger');
+            const nav = document.querySelector('.nav-links');
+            btn.addEventListener('click', function() {
+                nav.classList.toggle('open');
+                btn.classList.toggle('open');
+            });
+            nav.querySelectorAll('a').forEach(function(a) {
+                a.addEventListener('click', function() {
+                    nav.classList.remove('open');
+                    btn.classList.remove('open');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
